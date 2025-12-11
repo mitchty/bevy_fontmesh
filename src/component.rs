@@ -1,5 +1,22 @@
-use bevy::prelude::*;
 use crate::asset::FontMesh;
+use bevy::prelude::*;
+
+/// Alignment of the text mesh relative to its transform origin
+#[derive(Reflect, Clone, Copy, Debug, Default, PartialEq)]
+pub enum TextAnchor {
+    #[default]
+    TopLeft,
+    TopCenter,
+    TopRight,
+    CenterLeft,
+    Center,
+    CenterRight,
+    BottomLeft,
+    BottomCenter,
+    BottomRight,
+    /// Custom anchor point (0.0-1.0), where (0,0) is BottomLeft and (1,1) is TopRight
+    Custom(Vec2),
+}
 
 #[derive(Component, Reflect, Default)]
 #[reflect(Component)]
@@ -9,20 +26,34 @@ pub struct TextMesh {
     pub style: TextMeshStyle,
 }
 
+/// Text justification (alignment of lines relative to each other)
+#[derive(Reflect, Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum JustifyText {
+    #[default]
+    Left,
+    Center,
+    Right,
+}
+
 #[derive(Reflect, Clone, Debug)]
 pub struct TextMeshStyle {
+    /// Depth of the extrusion in font units (usually relative to 1.0 em height)
     pub depth: f32,
-    pub quality: u8, // Subdivisions
-    pub color: Color,
-    // Add more alignment/spacing options here later if needed
+    /// Curve subdivision quality
+    pub subdivision: u8,
+    /// Alignment of the mesh relative to the Transform and text justification
+    pub anchor: TextAnchor,
+    /// Text justification (multiline alignment)
+    pub justify: JustifyText,
 }
 
 impl Default for TextMeshStyle {
     fn default() -> Self {
         Self {
             depth: 0.1,
-            quality: 20,
-            color: Color::WHITE,
+            subdivision: 20, // Default low poly-ish but smooth enough
+            anchor: TextAnchor::TopLeft,
+            justify: JustifyText::Left,
         }
     }
 }
@@ -31,8 +62,8 @@ impl Default for TextMeshStyle {
 #[derive(Bundle, Default)]
 pub struct TextMeshBundle {
     pub text_mesh: TextMesh,
-    pub mesh: Handle<Mesh>,
-    pub material: Handle<StandardMaterial>,
+    pub mesh: Mesh3d,
+    pub material: MeshMaterial3d<StandardMaterial>,
     pub transform: Transform,
     pub global_transform: GlobalTransform,
     pub visibility: Visibility,

@@ -1,13 +1,14 @@
 mod asset;
 mod component;
+pub mod prelude;
 mod system;
 
 pub use asset::FontMesh;
-pub use component::{TextMesh, TextMeshBundle, TextMeshStyle};
+pub use component::{JustifyText, TextAnchor, TextMesh, TextMeshBundle, TextMeshStyle};
 
-use bevy::prelude::*;
 use asset::FontMeshLoader;
-use system::{update_text_meshes, TextMeshComputed};
+use bevy::prelude::*;
+use system::update_text_meshes;
 
 pub struct FontMeshPlugin;
 

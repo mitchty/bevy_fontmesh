@@ -1,12 +1,11 @@
 use bevy::prelude::*;
-use bevy_fontmesh::{FontMeshPlugin, TextMeshBundle, TextMesh, TextMeshStyle};
+use bevy_fontmesh::{FontMeshPlugin, TextMesh, TextMeshBundle, TextMeshStyle};
 
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
         .add_plugins(FontMeshPlugin)
         .add_systems(Startup, setup)
-        .add_systems(Update, rotate_text)
         .run();
 }
 
@@ -15,21 +14,34 @@ fn setup(
     asset_server: Res<AssetServer>,
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
-    // Camera
-    commands.spawn(Camera3dBundle {
-        transform: Transform::from_xyz(0.0, 5.0, 10.0).looking_at(Vec3::ZERO, Vec3::Y),
-        ..default()
-    });
+    // Camera - Zoomed in and lower, slightly left
+    commands.spawn(Camera3d::default()).insert(
+        Transform::from_xyz(-0.5, -1.0, 5.0).looking_at(Vec3::new(-0.24, -0.5, -0.2), Vec3::Y),
+    );
 
-    // Light
-    commands.spawn(PointLightBundle {
-        point_light: PointLight {
-            intensity: 1500.0,
+    // Key Light
+    commands
+        .spawn(PointLight {
+            intensity: 5000.0,
             shadows_enabled: true,
             ..default()
-        },
-        transform: Transform::from_xyz(4.0, 8.0, 4.0),
-        ..default()
+        })
+        .insert(Transform::from_xyz(4.0, 8.0, 4.0));
+
+    // Fill Light (Blue-ish)
+    commands
+        .spawn(PointLight {
+            intensity: 2000.0,
+            color: Color::srgb(0.5, 0.5, 1.0),
+            ..default()
+        })
+        .insert(Transform::from_xyz(-4.0, 2.0, 4.0));
+
+    // Add AmbientLight
+    commands.insert_resource(AmbientLight {
+        color: Color::WHITE,
+        brightness: 1000.0, // Significantly brighter to act as "environment" lighting substitute
+        affects_lightmapped_meshes: true,
     });
 
     // Text
@@ -38,23 +50,19 @@ fn setup(
             text: "FontMesh".to_string(),
             font: asset_server.load("fonts/FiraMono-Medium.ttf"),
             style: TextMeshStyle {
-                color: Color::srgb(1.0, 0.5, 0.0), // Orange
-                depth: 0.5,
-                quality: 20,
+                depth: 1.0,
+                subdivision: 20,
+                ..default()
             },
         },
-        material: materials.add(StandardMaterial {
-            base_color: Color::srgb(1.0, 0.5, 0.0),
-            perceptual_roughness: 0.1,
+        material: MeshMaterial3d(materials.add(StandardMaterial {
+            base_color: Color::srgb(0.2, 0.3, 0.8), // Blueish metallic
+            metallic: 0.8,             // Slightly less metallic to show some base color
+            perceptual_roughness: 0.3, // Rougher to catch more light highlights
+            reflectance: 0.8,
             ..default()
-        }),
+        })),
         transform: Transform::from_xyz(-2.5, 0.0, 0.0),
         ..default()
     });
-}
-
-fn rotate_text(time: Res<Time>, mut query: Query<&mut Transform, With<TextMesh>>) {
-    for mut transform in query.iter_mut() {
-        transform.rotate_y(time.delta_seconds() * 0.5);
-    }
 }

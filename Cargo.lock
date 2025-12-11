@@ -524,7 +524,9 @@ version = "0.1.0"
 dependencies = [
  "bevy",
  "fontmesh",
+ "rand",
  "thiserror 1.0.69",
+ "tracing",
 ]
 
 [[package]]

@@ -23,11 +23,11 @@ impl AssetLoader for FontMeshLoader {
     type Settings = ();
     type Error = FontMeshLoaderError;
 
-    async fn load<'a>(
-        &'a self,
-        reader: &'a mut Reader<'_>,
-        _settings: &'a (),
-        _load_context: &'a mut LoadContext<'_>,
+    async fn load(
+        &self,
+        reader: &mut dyn Reader,
+        _settings: &(),
+        _load_context: &mut LoadContext<'_>,
     ) -> Result<Self::Asset, Self::Error> {
         let mut data = Vec::new();
         reader.read_to_end(&mut data).await?;
