@@ -1,23 +1,27 @@
 use crate::component::{JustifyText, TextAnchor, TextMesh};
 use crate::FontMesh;
 use bevy::asset::RenderAssetUsages;
+use bevy::log::warn;
 use bevy::mesh::Indices;
 use bevy::prelude::*;
 use bevy::render::render_resource::PrimitiveTopology;
 use fontmesh::Font;
-use tracing::warn;
 
 #[derive(Component)]
 pub struct TextMeshComputed;
+
+type TextMeshQuery<'w, 's> = Query<
+    'w,
+    's,
+    (Entity, &'static TextMesh, &'static mut Mesh3d),
+    Or<(Changed<TextMesh>, Without<TextMeshComputed>)>,
+>;
 
 pub fn update_text_meshes(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     font_assets: Res<Assets<FontMesh>>,
-    mut query: Query<
-        (Entity, &TextMesh, &mut Mesh3d),
-        Or<(Changed<TextMesh>, Without<TextMeshComputed>)>,
-    >,
+    mut query: TextMeshQuery,
 ) {
     for (entity, text_mesh, mut mesh_handle) in query.iter_mut() {
         // 1. Try to get the font data

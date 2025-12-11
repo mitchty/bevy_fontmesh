@@ -2,12 +2,21 @@
 name = "bevy_fontmesh"
 version = "0.1.0"
 edition = "2021"
-description = "High-performance 3D text mesh generator for Bevy, powered by fontmesh"
+authors = ["Po Hsuan Lai"]
+description = "Simple and focused Bevy plugin for generating 3D text meshes from fonts"
 license = "MIT"
+repository = "https://github.com/PoHsuanLai/bevy_fontmesh"
+documentation = "https://docs.rs/bevy_fontmesh"
+homepage = "https://github.com/PoHsuanLai/bevy_fontmesh"
+readme = "README.md"
+keywords = ["bevy", "font", "mesh", "text", "ttf2mesh"]
+categories = ["graphics", "game-engines", "rendering"]
+exclude = ["assets/"]
 
 [dependencies]
 bevy = { version = "0.17", default-features = false, features = [
     "bevy_asset",
+    "bevy_log",
     "bevy_scene",
     "bevy_winit",
     "bevy_core_pipeline",
@@ -26,11 +35,11 @@ bevy = { version = "0.17", default-features = false, features = [
 ] }
 fontmesh = "0.3"
 thiserror = "1.0"
-tracing = "0.1.43"
 
 [dev-dependencies]
 bevy = { version = "0.17", default-features = false, features = [
     "bevy_asset",
+    "bevy_log",
     "bevy_scene",
     "bevy_winit",
     "bevy_core_pipeline",
