@@ -6,7 +6,6 @@ fn main() {
         .add_plugins(DefaultPlugins)
         .add_plugins(FontMeshPlugin)
         .add_systems(Startup, setup)
-        .add_systems(Update, rotate_text)
         .run();
 }
 
@@ -76,33 +75,27 @@ fn setup(
     spawn_example(
         "TopLeft Anchor\n(Text is below pivot)",
         TextAnchor::TopLeft,
-        Vec3::new(-5.0, 3.0, 0.0),
+        Vec3::new(-10.0, 1.3, 0.0),
     );
 
     // Example 2: Multiline with Center anchor (Text centered on pivot)
     spawn_example(
         "Center Anchor\n(Text centered)",
         TextAnchor::Center,
-        Vec3::new(0.0, 3.0, 0.0),
+        Vec3::new(0.0, 2.5, 0.0),
     );
 
     // Example 3: Multiline with BottomRight anchor (Text sits above pivot)
     spawn_example(
         "BottomRight Anchor\n(Text is above pivot)",
         TextAnchor::BottomRight,
-        Vec3::new(5.0, 3.0, 0.0),
+        Vec3::new(10.0, 3.7, 0.0),
     );
 
     // Example 4: Longer multiline text with Center anchor
     spawn_example(
         "Longer multiline\ntext example\nwith Center anchor.",
         TextAnchor::Center,
-        Vec3::new(0.0, -3.0, 0.0),
+        Vec3::new(0.0, -4.0, 0.0),
     );
-}
-
-fn rotate_text(time: Res<Time>, mut query: Query<&mut Transform, With<TextMesh>>) {
-    for mut transform in query.iter_mut() {
-        transform.rotate_y(time.delta_secs() * 0.2);
-    }
 }

@@ -87,6 +87,7 @@ fn setup(
                     depth: 0.2,
                     subdivision: 4,
                     anchor,
+                    ..default()
                 },
             },
             material: mat.clone(),

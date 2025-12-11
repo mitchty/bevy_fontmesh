@@ -24,7 +24,7 @@ bevy = { version = "0.17", default-features = false, features = [
     "tonemapping_luts",
     "zstd_rust", # Added zstd backend
 ] }
-fontmesh = { path = "../fontmesh", version = "0.3" }
+fontmesh = "0.3"
 thiserror = "1.0"
 tracing = "0.1.43"
 

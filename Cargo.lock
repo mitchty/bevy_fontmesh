@@ -1955,7 +1955,9 @@ dependencies = [
 
 [[package]]
 name = "fontmesh"
-version = "0.3.1"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c3c1b754c378a5cac00d930796e34b516a7c43e3e66d748c783d4a0aeb1a78a8"
 dependencies = [
  "glam",
  "lyon_tessellation",

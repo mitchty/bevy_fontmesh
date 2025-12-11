@@ -71,6 +71,7 @@ fn setup(
                     depth: 0.1,
                     subdivision: 4,
                     anchor: TextAnchor::TopLeft,
+                    ..default()
                 },
             },
             material: MeshMaterial3d(materials.add(StandardMaterial {
@@ -122,6 +123,7 @@ fn spawn_stress_text(
                             depth: 0.2,
                             subdivision: 20, // Higher detail for better look
                             anchor: TextAnchor::Center,
+                            ..default()
                         },
                     },
                     material: text_material, // Use generated random material
