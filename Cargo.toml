@@ -1,0 +1,48 @@
+[package]
+name = "bevy_fontmesh"
+version = "0.1.0"
+edition = "2021"
+description = "High-performance 3D text mesh generator for Bevy, powered by fontmesh"
+license = "MIT"
+
+[dependencies]
+bevy = { version = "0.17", default-features = false, features = [
+    "bevy_asset",
+    "bevy_scene",
+    "bevy_winit",
+    "bevy_core_pipeline",
+    "bevy_pbr",
+    "bevy_gltf",
+    "bevy_render",
+    "bevy_sprite",
+    "bevy_text",
+    "bevy_ui",
+    "multi_threaded",
+    "png",
+    "hdr",
+    "x11",
+    "tonemapping_luts",
+    "zstd_rust", # Added zstd backend
+] }
+fontmesh = { path = "../fontmesh", version = "0.3" }
+thiserror = "1.0"
+
+[dev-dependencies]
+bevy = { version = "0.17", default-features = false, features = [
+    "bevy_asset",
+    "bevy_scene",
+    "bevy_winit",
+    "bevy_core_pipeline",
+    "bevy_pbr",
+    "bevy_gltf",
+    "bevy_render",
+    "bevy_sprite",
+    "bevy_text",
+    "bevy_ui",
+    "multi_threaded",
+    "png",
+    "hdr",
+    "x11",
+    "tonemapping_luts",
+    "zstd_rust", # Added zstd backend
+] }
