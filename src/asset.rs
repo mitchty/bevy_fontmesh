@@ -138,15 +138,20 @@ impl FontMesh {
             Err(_) => return 0.0,
         };
 
-        let mut width = 0.0;
-        for ch in text.chars() {
-            if let Ok(glyph) = font.glyph_by_char(ch) {
-                width += glyph.advance();
-            } else if ch.is_whitespace() {
-                width += 0.3; // Fallback for space
-            }
-        }
-        width
+        text.chars()
+            .map(|ch| {
+                font.glyph_by_char(ch)
+                    .map(|g| g.advance())
+                    .unwrap_or_else(|_| {
+                        if ch.is_whitespace() {
+                            // Use font metrics for a proportional fallback space width
+                            (font.ascender() - font.descender()) * 0.25
+                        } else {
+                            0.0
+                        }
+                    })
+            })
+            .sum()
     }
 
     /// Get character positions for a line of text.
@@ -174,20 +179,24 @@ impl FontMesh {
             Err(_) => return Vec::new(),
         };
 
-        let mut positions = Vec::with_capacity(text.len());
-        let mut x = 0.0;
-
-        for (idx, ch) in text.chars().enumerate() {
-            positions.push((idx, x));
-
-            if let Ok(glyph) = font.glyph_by_char(ch) {
-                x += glyph.advance();
-            } else if ch.is_whitespace() {
-                x += 0.3;
-            }
-        }
-
-        positions
+        text.chars()
+            .enumerate()
+            .scan(0.0, |x, (idx, ch)| {
+                let current_x = *x;
+                *x += font
+                    .glyph_by_char(ch)
+                    .map(|g| g.advance())
+                    .unwrap_or_else(|_| {
+                        if ch.is_whitespace() {
+                            // Use font metrics for a proportional fallback space width
+                            (font.ascender() - font.descender()) * 0.25
+                        } else {
+                            0.0
+                        }
+                    });
+                Some((idx, current_x))
+            })
+            .collect()
     }
 }
 

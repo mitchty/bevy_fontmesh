@@ -85,7 +85,7 @@ fn setup(
                 font: font.clone(),
                 style: TextMeshStyle {
                     depth: 0.2,
-                    subdivision: 4,
+                    subdivision: 30,
                     anchor,
                     ..default()
                 },
