@@ -9,7 +9,7 @@ A simple and focused Bevy plugin for generating 3D text meshes from fonts. Power
 
 <!-- Replace the URL below with your GitHub-hosted video URL after uploading -->
 <p align="center">
-  <video src="REPLACE_WITH_YOUR_GITHUB_VIDEO_URL" controls></video>
+  <video src="https://github.com/user-attachments/assets/5a519f0e-b836-4dce-bd1b-eb2867e1437b" controls></video>
 </p>
 
 ## What it does
