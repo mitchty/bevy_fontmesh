@@ -202,7 +202,8 @@ impl FontMesh {
 ///
 /// This loader is registered automatically by [`FontMeshPlugin`](crate::FontMeshPlugin)
 /// and handles `.ttf` and `.otf` file extensions.
-#[derive(Default)]
+//#[derive(Default, TypePath)]
+#[derive(Default, Reflect)]
 pub struct FontMeshLoader;
 
 /// Errors that can occur when loading font assets.
